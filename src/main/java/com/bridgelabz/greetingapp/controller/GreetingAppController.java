@@ -3,13 +3,10 @@ package com.bridgelabz.greetingapp.controller;
 import com.bridgelabz.greetingapp.dto.GreetingAppDTO;
 import com.bridgelabz.greetingapp.service.GreetingAppService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/hello")
+//@RequestMapping("/hello")
 public class GreetingAppController {
 
     @Autowired
@@ -17,13 +14,19 @@ public class GreetingAppController {
 
     @GetMapping("")
     public GreetingAppDTO getHelloMessageFromDTO(
-            @RequestBody GreetingAppDTO greetingAppDTO){
+            @RequestBody GreetingAppDTO greetingAppDTO) {
         return greetingAppDTO;
     }
 
     @GetMapping(value = "/message")
-    public String getGreetingMessageOfHelloWorld(){
+    public String getGreetingMessageOfHelloWorld() {
         return greetingAppService.greet();
     }
-    
+
+    @GetMapping(value = "/message1")
+    public String getGreetingMessageUsingName(
+            @RequestParam String firstName,
+            @RequestParam String lastName) {
+        return "Hello : " + firstName + " " + lastName;
+    }
 }
