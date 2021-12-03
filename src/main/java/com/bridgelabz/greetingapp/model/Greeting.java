@@ -1,9 +1,15 @@
 package com.bridgelabz.greetingapp.model;
 
+import lombok.Data;
+
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
+@Data
 public class Greeting {
+    @Id
+    private int id;
     private String message;
 
     public Greeting(String message)
@@ -11,13 +17,9 @@ public class Greeting {
         this.message = message;
     }
 
-    public String getMessage()
+    public Greeting(int id, String message)
     {
-        return message;
-    }
-    
-    public void setMessage(String name)
-    {
-        this.message = name;
+        this.id = id;
+        this.message = message;
     }
 }
