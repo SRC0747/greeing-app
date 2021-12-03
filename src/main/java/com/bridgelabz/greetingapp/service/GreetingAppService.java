@@ -12,9 +12,9 @@ import java.util.Optional;
 @Service
 public abstract class GreetingAppService implements IGreetingService {
 
+    private static final String template = "Hello, %s!";
     @Autowired
     GreetingAppRepository greetingAppRepository;
-    private static final String template = "Hello, %s!";
 
     public String greet() {
         return "Hello World";
@@ -25,17 +25,17 @@ public abstract class GreetingAppService implements IGreetingService {
         return greetingAppRepository.save(new Greeting(message));
     }
 
-    public Optional<Greeting> editGreetingById(int id, String name) {
-        Optional<Greeting> particularGreeting = greetingAppRepository.findById(id);
-        particularGreeting.get().setMessage(name);
-        return particularGreeting;
-    }
-
     public Optional<Greeting> findById(int id) {
         return greetingAppRepository.findById(id);
     }
 
     public List<Greeting> getAll() {
         return greetingAppRepository.findAll();
+    }
+
+    public Optional<Greeting> editGreetingById(int id, String name) {
+        Optional<Greeting> particularGreeting = greetingAppRepository.findById(id);
+        particularGreeting.get().setMessage(name);
+        return particularGreeting;
     }
 }

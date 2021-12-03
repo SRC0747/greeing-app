@@ -42,16 +42,15 @@ public class GreetingAppController {
         return iGreetingService.addGreeting(user);
     }
 
+    @GetMapping(value = "/all")
+    public List<Greeting> getAll(){
+        return iGreetingService.getAll();
+    }
+
     @PutMapping(value = "/editGreeting/{id}")
     public Optional<Greeting> editGreetingById(
             @PathVariable("id") int id,
             @RequestParam(value = "name") String name) {
         return iGreetingService.editGreetingById(id, name);
     }
-
-    @GetMapping(value = "/all")
-    public List<Greeting> getAll(){
-        return iGreetingService.getAll();
-    }
-
 }
