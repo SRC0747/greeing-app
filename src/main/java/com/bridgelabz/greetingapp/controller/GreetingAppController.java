@@ -53,4 +53,9 @@ public class GreetingAppController {
             @RequestParam(value = "name") String name) {
         return iGreetingService.editGreetingById(id, name);
     }
+
+    @DeleteMapping("/delete")
+    public void deleteByID(@RequestParam(name = "id") int id) {
+        iGreetingService.delete(id);
+    }
 }

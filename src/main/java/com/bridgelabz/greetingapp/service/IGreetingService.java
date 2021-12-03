@@ -12,4 +12,6 @@ public interface IGreetingService {
     Optional<Greeting> editGreetingById(int id, String name);
 
     List<Greeting> getAll();
+
+    void delete(int id);
 }

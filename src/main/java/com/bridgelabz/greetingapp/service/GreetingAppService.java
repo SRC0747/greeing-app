@@ -38,4 +38,8 @@ public abstract class GreetingAppService implements IGreetingService {
         particularGreeting.get().setMessage(name);
         return particularGreeting;
     }
+
+    public void delete(int id) {
+        greetingAppRepository.deleteById(id);
+    }
 }
