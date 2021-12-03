@@ -8,6 +8,7 @@ import com.bridgelabz.greetingapp.service.IGreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -46,6 +47,11 @@ public class GreetingAppController {
             @PathVariable("id") int id,
             @RequestParam(value = "name") String name) {
         return iGreetingService.editGreetingById(id, name);
+    }
+
+    @GetMapping(value = "/all")
+    public List<Greeting> getAll(){
+        return iGreetingService.getAll();
     }
 
 }

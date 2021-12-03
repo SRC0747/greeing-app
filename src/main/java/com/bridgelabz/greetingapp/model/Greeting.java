@@ -11,7 +11,6 @@ public class Greeting {
     @Id
     private int id;
     private String message;
-
     public Greeting(String message)
     {
         this.message = message;
@@ -22,4 +21,6 @@ public class Greeting {
         this.id = id;
         this.message = message;
     }
+
+
 }

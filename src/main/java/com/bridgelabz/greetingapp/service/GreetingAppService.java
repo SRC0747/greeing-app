@@ -6,6 +6,7 @@ import com.bridgelabz.greetingapp.repository.GreetingAppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,7 +25,17 @@ public abstract class GreetingAppService implements IGreetingService {
         return greetingAppRepository.save(new Greeting(message));
     }
 
+    public Optional<Greeting> editGreetingById(int id, String name) {
+        Optional<Greeting> particularGreeting = greetingAppRepository.findById(id);
+        particularGreeting.get().setMessage(name);
+        return particularGreeting;
+    }
+
     public Optional<Greeting> findById(int id) {
         return greetingAppRepository.findById(id);
+    }
+
+    public List<Greeting> getAll() {
+        return greetingAppRepository.findAll();
     }
 }
