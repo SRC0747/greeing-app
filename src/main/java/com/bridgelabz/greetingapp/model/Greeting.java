@@ -7,6 +7,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * Purpose : Contain the entities in the database
+ *
+ * @author : Sampriti Roy Chowdhury
+ * @version : 0.0.1
+ * @since : 02-12-2021
+ */
+
 @Entity
 @Data
 public class Greeting {
