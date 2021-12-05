@@ -2,27 +2,35 @@ package com.bridgelabz.greetingapp.controller;
 
 import com.bridgelabz.greetingapp.dto.GreetingAppDTO;
 import com.bridgelabz.greetingapp.model.Greeting;
-import com.bridgelabz.greetingapp.model.User;
 import com.bridgelabz.greetingapp.service.GreetingAppService;
-import com.bridgelabz.greetingapp.service.IGreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-//@RequestMapping("/hello")
 public class GreetingAppController {
 
     @Autowired
     GreetingAppService greetingAppService;
-    private IGreetingService iGreetingService;
 
-    @GetMapping("")
-    public GreetingAppDTO getHelloMessageFromDTO(
-            @RequestBody GreetingAppDTO greetingAppDTO) {
-        return greetingAppDTO;
+    @GetMapping("/greeting")
+    public String greeting() {
+        return "Welcome To This Server!!!";
+    }
+
+    @GetMapping("/greeting2/{name}")
+    public String greetingUsingGetMethod(
+            @PathVariable String name
+    ) {
+        return "Welcome " + name + " and have a nice day!";
+    }
+
+    @PutMapping("/greeting3")
+    public String greetingUsingPutMethod(
+            @RequestParam String name
+    ) {
+        return "Welcome " + name + " and have a nice day!";
     }
 
     @GetMapping(value = "/message")
@@ -37,25 +45,31 @@ public class GreetingAppController {
         return "Hello : " + firstName + " " + lastName;
     }
 
-    @PostMapping(value = "/fullName")
-    public Greeting addGreetingMessage(@RequestBody User user) {
-        return iGreetingService.addGreeting(user);
+    @PostMapping(value = "/save")
+    public Greeting saveGreetingMessage(@RequestBody GreetingAppDTO message) {
+        return greetingAppService.saveGreeting(message);
+    }
+
+    @GetMapping("/findById/{id}")
+    public Greeting getGreetingById(@PathVariable int id) {
+        return greetingAppService.getGreetingById(id);
     }
 
     @GetMapping(value = "/all")
-    public List<Greeting> getAll(){
-        return iGreetingService.getAll();
+    public List<Greeting> get(){
+        return greetingAppService.getAll();
     }
 
-    @PutMapping(value = "/editGreeting/{id}")
-    public Optional<Greeting> editGreetingById(
-            @PathVariable("id") int id,
-            @RequestParam(value = "name") String name) {
-        return iGreetingService.editGreetingById(id, name);
+    @PutMapping(value = "/save/{id}")
+    public String editGreeting(
+            @PathVariable int id,
+            @RequestBody GreetingAppDTO message){
+        return  greetingAppService.editGreeting(id, message);
     }
 
-    @DeleteMapping("/delete")
-    public void deleteByID(@RequestParam(name = "id") int id) {
-        iGreetingService.delete(id);
+    @DeleteMapping(value = "/delete")
+    public void deleteGreeting(
+            @RequestParam int id){
+        greetingAppService.deleteGreeting(id);
     }
 }

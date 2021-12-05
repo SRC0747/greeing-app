@@ -1,7 +1,7 @@
 package com.bridgelabz.greetingapp.service;
 
+import com.bridgelabz.greetingapp.dto.GreetingAppDTO;
 import com.bridgelabz.greetingapp.model.Greeting;
-import com.bridgelabz.greetingapp.model.User;
 import com.bridgelabz.greetingapp.repository.GreetingAppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,9 +10,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public abstract class GreetingAppService implements IGreetingService {
+public class GreetingAppService {
 
-    private static final String template = "Hello, %s!";
+    private static final String GREETING_MESSAGE_EDITED = "Greeting message of corresponding id is successfully edited.";
+    private static final String GREETING_MESSAGES_NOT_FOUND = "Greeting Message of corresponding id is not found.";
+    private static final String GREETING_MESSAGE_DELETED = "Greeting Message is deleted successfully.";
+
     @Autowired
     GreetingAppRepository greetingAppRepository;
 
@@ -20,26 +23,38 @@ public abstract class GreetingAppService implements IGreetingService {
         return "Hello World";
     }
 
-    public Greeting addGreeting(User user) {
-        String message = String.format(template, (user.toString().isEmpty()) ? "Hello World" : user.toString());
-        return greetingAppRepository.save(new Greeting(message));
+    public Greeting saveGreeting(GreetingAppDTO greetingAppDTO) {
+        Greeting greeting = new Greeting();
+        greeting.setMessage(greetingAppDTO.getMessage());
+        return greetingAppRepository.save(greeting);
     }
 
-    public Optional<Greeting> findById(int id) {
-        return greetingAppRepository.findById(id);
+    public Greeting getGreetingById(int id) {
+        Optional<Greeting> greetById = greetingAppRepository.findById(id);
+        return greetById.orElse(null);
     }
 
     public List<Greeting> getAll() {
         return greetingAppRepository.findAll();
     }
 
-    public Optional<Greeting> editGreetingById(int id, String name) {
-        Optional<Greeting> particularGreeting = greetingAppRepository.findById(id);
-        particularGreeting.get().setMessage(name);
-        return particularGreeting;
+    public String editGreeting(int id, GreetingAppDTO greetingAppDTO) {
+        Optional<Greeting> editGreetingMessageById = greetingAppRepository.findById(id);
+        if(editGreetingMessageById.isPresent()){
+            Greeting greeting = editGreetingMessageById.get();
+            greeting.setMessage(greetingAppDTO.getMessage());
+            greetingAppRepository.save(greeting);
+            return GREETING_MESSAGE_EDITED;
+        }
+        return GREETING_MESSAGES_NOT_FOUND;
     }
 
-    public void delete(int id) {
-        greetingAppRepository.deleteById(id);
+    public String deleteGreeting(int id) {
+        Optional<Greeting> greetingsEntity = greetingAppRepository.findById(id);
+        if(greetingsEntity.isPresent()){
+            greetingAppRepository.delete(greetingsEntity.get());
+            return GREETING_MESSAGE_DELETED;
+        }
+        return GREETING_MESSAGES_NOT_FOUND;
     }
 }
